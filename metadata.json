@@ -1,0 +1,6 @@
+{
+  "name": "Alder & Page",
+  "description": "Independent curated bookstore featuring literary fiction, natural history, design monographs, excerpt previews, and seamless checkout.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

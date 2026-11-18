@@ -1,41 +1,55 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   :root {
-    --font-serif: 'Fraunces', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-mono: 'IBM Plex Mono', monospace;
   }
 
   html {
     font-family: var(--font-sans);
-    scroll-behavior: smooth;
-    background-color: #FAFAF8;
-    color: #141413;
+    background-color: #121214;
+    color: #f4f4f4;
   }
 
-  h1, h2, h3, .font-display {
-    font-family: var(--font-serif);
-    text-wrap: balance;
-  }
-
-  .font-mono-num {
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .tabular-nums {
-    font-variant-numeric: tabular-nums;
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #121214;
+    color: #f4f4f4;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+.font-display-book {
+  font-family: var(--font-display);
+}
+
+.font-mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom subtle scrollbars for dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #161618;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #35353b;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
 }

@@ -1,0 +1,137 @@
+openapi: 3.0.3
+info:
+  title: Book Worm eCommerce Bookstore API
+  version: 1.0.0
+  description: OpenAPI specification derived from the Book Worm wireframes and PostgreSQL data model.
+paths:
+  /api/books:
+    get:
+      summary: List and filter catalogue books
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: language
+          in: query
+          schema:
+            type: string
+        - name: format
+          in: query
+          schema:
+            type: string
+            enum: [Paperback, Hardcover, eBook]
+        - name: publisher
+          in: query
+          schema:
+            type: string
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [relevance, price_asc, price_desc, rating, bestsellers]
+      responses:
+        '200':
+          description: Matching list of books
+  /api/books/{id}:
+    get:
+      summary: Get single book details, writer bio, reviews, and related reads
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detailed book object
+  /api/books/{id}/reviews:
+    post:
+      summary: Submit a reader review for a book
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rating, comment]
+              properties:
+                rating:
+                  type: integer
+                  minimum: 1
+                  maximum: 5
+                comment:
+                  type: string
+      responses:
+        '201':
+          description: Created review
+  /api/orders:
+    get:
+      summary: List user order history with Buy It Again snapshots
+      responses:
+        '200':
+          description: Order history list
+    post:
+      summary: Create order and process payment with optional coupon and gift points redemption
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [items, shippingAddress, paymentMethod]
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      bookId:
+                        type: string
+                      format:
+                        type: string
+                      quantity:
+                        type: integer
+                couponCode:
+                  type: string
+                pointsToRedeem:
+                  type: integer
+                paymentMethod:
+                  type: string
+                  enum: [Credit Card, Debit card, UPI, Wallet]
+                shippingAddress:
+                  type: object
+      responses:
+        '201':
+          description: Order confirmed
+  /api/wishlist:
+    get:
+      summary: Get saved wishlist book IDs
+      responses:
+        '200':
+          description: Wishlist items
+    post:
+      summary: Toggle book in wishlist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [bookId]
+              properties:
+                bookId:
+                  type: string
+      responses:
+        '200':
+          description: Updated wishlist

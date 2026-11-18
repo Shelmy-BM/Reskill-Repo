@@ -1,79 +1,71 @@
-export type BookGenre =
-  | 'Literary Fiction'
-  | 'Science & Nature'
-  | 'Design & Architecture'
-  | 'History & Biography'
-  | 'Speculative'
-  | 'Essays & Poetry';
+export type BookFormat = 'Paperback' | 'Hardcover' | 'eBook';
 
-export type BookFormat = 'Hardcover' | 'Paperback' | 'E-Book';
+export type BookSection = 'Recommended for You' | 'Bestsellers this Month' | 'New Launches' | 'Catalogue';
 
-export interface BookVariant {
-  format: BookFormat;
-  price: number;
-  originalPrice?: number;
-  stockCount: number;
-  sku: string;
-}
+export type ViewMode =
+  | 'catalogue'
+  | 'pdp'
+  | 'checkout'
+  | 'payment'
+  | 'confirmation'
+  | 'orders'
+  | 'wishlist'
+  | 'writers';
 
-export interface BookReview {
+export interface Review {
   id: string;
-  authorName: string;
+  reviewerName: string;
   rating: number;
-  title: string;
   comment: string;
   date: string;
-  verifiedPurchase: boolean;
 }
 
-export type CoverMotif =
-  | 'botanical'
-  | 'horizon'
-  | 'architectural'
-  | 'celestial'
-  | 'geometric'
-  | 'archive';
-
-export interface CoverStyle {
-  bg: string;
-  accent: string;
-  ink: string;
-  motif: CoverMotif;
+export interface Writer {
+  id: string;
+  name: string;
+  role: string;
+  location: string;
+  bio: string;
+  avatarUrl?: string;
+  initials: string;
+  accentColor: string;
 }
 
 export interface Book {
   id: string;
-  slug: string;
-  title: string;
-  subtitle?: string;
-  author: string;
-  authorBio: string;
-  genre: BookGenre;
-  publishedYear: number;
-  publisher: string;
-  pages: number;
-  language: string;
   isbn: string;
-  coverImage?: string;
-  coverStyle: CoverStyle;
-  editionNote?: 'Staff Pick' | 'New Edition' | 'Limited Print' | 'Bestseller';
-  isFeatured?: boolean;
-  collectionIds: string[];
-  rating: number;
-  reviewCount: number;
-  synopsis: string;
-  excerptTitle: string;
-  excerptParagraphs: string[];
-  variants: BookVariant[];
-  reviews: BookReview[];
-}
-
-export interface CuratedCollection {
-  id: string;
   title: string;
-  subtitle: string;
+  authorId: string;
+  authorName: string;
+  publisher: string;
   description: string;
-  curator: string;
+  backCoverBlurb: string;
+  format: BookFormat;
+  availableFormats: BookFormat[];
+  categories: string[];
+  primaryCategory: string;
+  price: number;
+  language: 'English' | 'Hindi' | 'Spanish' | 'French';
+  deliveryEstimate: string;
+  rating: number;
+  copiesSold: number;
+  section: BookSection;
+  coverTheme:
+    | 'focus-target'
+    | 'learning-bulb'
+    | 'success-path'
+    | 'midnight-door'
+    | 'beneath-stars'
+    | 'final-frontier'
+    | 'joy-minimalism'
+    | 'vanishing-house'
+    | 'lost-kitten'
+    | 'editorial-crimson'
+    | 'editorial-emerald'
+    | 'editorial-indigo'
+    | 'editorial-amber'
+    | 'editorial-slate';
+  reviews: Review[];
 }
 
 export interface CartItem {
@@ -82,58 +74,46 @@ export interface CartItem {
   quantity: number;
 }
 
-export interface PromoCode {
-  code: string;
-  type: 'percent' | 'shipping';
-  value: number;
-  label: string;
-}
-
-export type ShippingMethod = 'standard' | 'express' | 'digital';
-export type PaymentMethod = 'card' | 'cod';
-
-export interface ShippingAddress {
-  fullName: string;
+export interface DeliveryAddress {
+  firstName: string;
+  lastName: string;
+  addressLine: string;
   email: string;
-  phone: string;
-  street: string;
   city: string;
-  postalCode: string;
+  pin: string;
+  phoneCode: string;
+  phoneNumber: string;
+  state: string;
   country: string;
 }
 
-export interface OrderItem {
+export type PaymentMethodType = 'Credit Card' | 'Debit card' | 'UPI' | 'Wallet';
+
+export interface OrderItemSnapshot {
   bookId: string;
   title: string;
-  author: string;
+  authorName: string;
+  description: string;
   format: BookFormat;
-  unitPrice: number;
+  categories: string[];
+  price: number;
   quantity: number;
-  coverImage?: string;
-  coverStyle: CoverStyle;
+  deliveryEstimate: string;
+  coverTheme: Book['coverTheme'];
+  isbn: string;
 }
-
-export type OrderStatus = 'Confirmed' | 'Packed' | 'In Transit' | 'Delivered';
 
 export interface Order {
   id: string;
   createdAt: string;
-  estimatedDelivery: string;
-  status: OrderStatus;
-  items: OrderItem[];
+  status: 'Confirmed' | 'Shipped' | 'Delivered';
+  paymentMethod: PaymentMethodType;
+  items: OrderItemSnapshot[];
   subtotal: number;
-  discount: number;
-  promoCode?: string;
-  shippingCost: number;
-  giftWrapCost: number;
   tax: number;
-  total: number;
-  shippingMethod: ShippingMethod;
-  paymentMethod: PaymentMethod;
-  giftMessage?: string;
-  address: ShippingAddress;
+  discount: number;
+  pointsRedeemed: number;
+  pointsEarned: number;
+  totalAmount: number;
+  shippingAddress: DeliveryAddress;
 }
-
-export type AppView = 'storefront' | 'book' | 'wishlist' | 'orders' | 'checkout';
-
-export type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'rating' | 'newest';

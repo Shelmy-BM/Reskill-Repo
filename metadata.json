@@ -1,6 +1,6 @@
 {
-  "name": "Alder & Page",
-  "description": "Independent curated bookstore featuring literary fiction, natural history, design monographs, excerpt previews, and seamless checkout.",
+  "name": "Book Worm",
+  "description": "Responsive eCommerce bookstore platform with curated catalogues, writer profiles, cart & gift-point checkout, payment workflows, and order history.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }
